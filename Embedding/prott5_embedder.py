@@ -23,7 +23,7 @@ def get_T5_model(model_dir, transformer_link = "Rostlab/prot_t5_xl_half_uniref50
         print("##########################")
         print("Loading cached model from: {}".format(model_dir))
         print("##########################")
-    model = T5EncoderModel.from_pretrained(transformer_link, cache_dir=model_dir)
+    model = T5EncoderModel.from_pretrained(pretrained_model_name_or_path= model_dir if model_dir is not None else transformer_link)
     # only cast to full-precision if no GPU is available
     if device==torch.device("cpu"):
         print("Casting model to full precision for running on CPU ...")
@@ -31,7 +31,7 @@ def get_T5_model(model_dir, transformer_link = "Rostlab/prot_t5_xl_half_uniref50
 
     model = model.to(device)
     model = model.eval()
-    vocab = T5Tokenizer.from_pretrained(transformer_link, do_lower_case=False )
+    vocab = T5Tokenizer.from_pretrained(pretrained_model_name_or_path= model_dir if model_dir is not None else transformer_link, do_lower_case=False )
     return model, vocab
 
 
